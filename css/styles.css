@@ -56,25 +56,27 @@ h1 {
     height: 125px;
     width: 125px;
     background: #2e3d49;
-    margin: 0 0 20px 0;
+    margin: 0 10px 20px 0;
     font-size: 0;
+    text-align: center;
     color: #ff00c8;
     border-radius: 8px;
     cursor: pointer;
     display: flex;
-    justify-content: center;
+    justify-content: center vertical;
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
 
 .deck .card.open {
     transform: rotateY(0);
-    background: #02e402;
+    background: #4e754e;
     cursor: default;
 }
 
 .deck .card.show {
     font-size: 50px;
+    justify-content: center vertical;
 }
 
 .deck .card.match {
