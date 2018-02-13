@@ -26,7 +26,7 @@ let objects = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', '
 
 // Shuffling function: enables that no two games have the same card arrangement 
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -42,7 +42,7 @@ function shuffle(array) {
 function init() {
 
     // The shuffle function shuffles the objects array
-    var allCards = shuffle(objects);
+    let allCards = shuffle(objects);
     $deck.empty();
 
     // The game starts with no matching cards and zero moves 
@@ -66,7 +66,7 @@ function init() {
 
 // Adds a score from 1 to 3 stars depending on the amount of moves done
 function rating(moves) {
-    var rating = 3;
+    let rating = 3;
     if (moves > stars3 && moves < stars2) {
         $rating.eq(3).removeClass('fa-star').addClass('fa-star-o');
     } else if (moves > stars2 && moves < star1) {
@@ -94,15 +94,15 @@ $restart.bind('click', function (confirmed) {
 
 // This function allows each card to be validated that is an equal match to another card that is clicked on to stay open.
 // If cards do not match, both cards are flipped back over.
-var addCardListener = function () {
+let addCardListener = function () {
 
     // With the following, the card that is clicked on is flipped
     $deck.find('.card').bind('click', function () {
-        var $this = $(this);
+        let $this = $(this);
 
         if ($this.hasClass('show') || $this.hasClass('match')) { return true; }
 
-        var card = $this.context.innerHTML;
+        let card = $this.context.innerHTML;
         $this.addClass('open show');
         allOpen.push(card);
 
@@ -139,7 +139,7 @@ var addCardListener = function () {
         // The game is finished once all cards have been matched, with a short delay
         if (totalCard === match) {
             rating(moves);
-            var score = rating(moves).score;
+            let score = rating(moves).score;
             setTimeout(function () {
                 gameOver(moves, score);
             }, 500);
