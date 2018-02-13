@@ -22,7 +22,7 @@ In my Fend Udacity course, I had to create a memory game where upon clicked, two
 
 3. Congratulations, you win! An alert window appears tell you your score, time, and moves it took to complete the game. If there is an issue with a single card randomly paired, just hit the restart button on the top right corner of the game. 
 
-4. On the Alert window, you can hit 'Play Again!' to have another go at the game, keep playing for the best score and brag off to your friends.
+4. On the Alert window, you can hit 'Go Again!' to have another go at the game, keep playing for the best score and brag off to your friends.
 
 ## Tools Used: 
 
