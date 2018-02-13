@@ -49,7 +49,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+   
 }
 
 .deck .card {
@@ -76,7 +76,6 @@ h1 {
 
 .deck .card.show {
     font-size: 50px;
-    justify-content: center vertical;
 }
 
 .deck .card.match {
