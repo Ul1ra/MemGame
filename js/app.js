@@ -1,26 +1,30 @@
 // All usefull objects and shortcuts to simplify coding
 let objects = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
+
+    // Useful selectors shortened
     $container = $('.container'),
     $scorePanel = $('.score-panel'),
     $rating = $('.fa-star'),
     $moves = $('.moves'),
     $timer = $('.timer'),
-    nowTime,
     $restart = $('.restart'),
     $deck = $('.deck'),
+
+    // Set variables to shorten code
+    nowTime,
+    allOpen = [],
     match = 0,
     second = 0,
     moves = 0,
-    allOpen = [],
     wait = 420,
     totalCard = objects.length / 2,
-    stars5 = 12,
-    stars4 = 16,
-    stars3 = 20,
-    stars2 = 24,
-    star1 = 30;
 
-// Card shuffling function
+    // Scoring system from 1 to 3 stars to shorten code
+    stars3 = 14,
+    stars2 = 16,
+    star1 = 20;
+
+// Shuffling function: enables that no two games have the same card arrangement 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -34,57 +38,62 @@ function shuffle(array) {
     return array;
 }
 
-// This function initiates the game
+// The function init() enables the game to begin
 function init() {
+
+    // The shuffle function shuffles the objects array
     var allCards = shuffle(objects);
     $deck.empty();
+
+    // The game starts with no matching cards and zero moves 
     match = 0;
     moves = 0;
     $moves.text('0');
-    $rating.removeClass('fa-star-o').addClass('fa-star');
+
+    // A for loop creates 16  <li> tags with the class of card for every <i> tag
+    // A class of fa fa- and a name of each object from the objects=[] array
     for (let i = 0; i < allCards.length; i++) {
         $deck.append($('<li class="card"><i class="fa fa-' + allCards[i] + '"></i></li>'))
     }
-
     addCardListener();
 
+    // Enables the timer to reset to 0 when the game is restarted
     resetTimer(nowTime);
     second = 0;
     $timer.text(`${second}`)
     initTime();
 }
 
-// Adds the scores per amount of moves
+// Adds a score from 1 to 3 stars depending on the amount of moves done
 function rating(moves) {
-    var rating = 5;
-    if (moves > stars5 && moves < stars4) {
-        $rating.eq(4).removeClass('fa-star').addClass('fa-star-o');
-    } else if (moves > stars4 && moves < stars3) {
+    var rating = 3;
+    if (moves > stars3 && moves < stars2) {
         $rating.eq(3).removeClass('fa-star').addClass('fa-star-o');
-    } else if (moves > stars3 && moves < stars2) {
-        $rating.eq(2).removeClass('fa-star').addClass('fa-star-o');
     } else if (moves > stars2 && moves < star1) {
-        $rating.eq(1).removeClass('fa-star').addClass('fa-star-o');
+        $rating.eq(2).removeClass('fa-star').addClass('fa-star-o');
     } else if (moves > star1) {
-        $rating.eq(0).removeClass('fa-star').addClass('fa-star-o');
-        rating = 0;
+        $rating.eq(1).removeClass('fa-star').addClass('fa-star-o');
+        rating = 1;
     }
     return { score: rating };
 }
 
-// Add boostrap modal code to themplate 
+// Add boostrap modal alert window showing time, moves, score it took to finish the game, toggles when all pairs are matched.
 function gameOver(moves, score) {
     $('#winnerText').text(`In ${second} seconds, you did a total of ${moves} moves with a score of ${score}. Well done!`);
     $('#winnerModal').modal('toggle');
 }
 
-// On click, the game restarts
+// Clicking on the button located on the top right of the game, enables the cards too be reset
 $restart.bind('click', function (confirmed) {
     if (confirmed) {
+        $rating.removeClass('fa-star-o').addClass('fa-star');
         init();
     }
 });
 
+// This function allows each card to be validated that is an equal match to another card that is clicked on to stay open.
+// If cards do not match, both cards are flipped back over.
 var addCardListener = function () {
 
     // With the following, the card that is clicked on is flipped
@@ -97,7 +106,7 @@ var addCardListener = function () {
         $this.addClass('open show');
         allOpen.push(card);
 
-        //Compares cards if they matched
+        // Compares cards if they matched
         if (allOpen.length > 1) {
             if (card === allOpen[0]) {
                 $deck.find('.open').addClass('match');
@@ -105,19 +114,29 @@ var addCardListener = function () {
                     $deck.find('open').removeClass('open show');
                 }, wait);
                 match++;
+
+                // If cards are not matched, there is a delay of 630ms, and the cards will turn back cover up.
             } else {
                 $deck.find('.open').addClass('notmatch');
                 setTimeout(function () {
                     $deck.find('.open').removeClass('open show');
                 }, wait / 1.5);
             }
+
+            // The allOpen array specifies all added cards facing up
             allOpen = [];
+
+            // Increments the number of moves by one only when two cards are matched or not matched
             moves++;
+
+            // The number of moves is added to the rating() function that will determine the star score
             rating(moves);
+
+            // The number of moves are added to the modal HTML alert
             $moves.html(moves);
         }
 
-        // The game is finished once all cards have been matched
+        // The game is finished once all cards have been matched, with a short delay
         if (totalCard === match) {
             rating(moves);
             var score = rating(moves).score;
